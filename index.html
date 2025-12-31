@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Bible App Section</title>
+
+
+ <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter&display=swap" rel="stylesheet">
+
+
+ <style>
+   /* CSS STYLES */
+   * {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+   }
+
+
+   body {
+     background: #f6f4ec;
+     font-family: 'Inter', sans-serif;
+     color: #444;
+   }
+
+
+   .container {
+     max-width: 850px;
+     margin: 40px auto;
+     padding: 20px;
+   }
+
+
+   .card {
+     background: #fff;
+     padding: 30px;
+     margin-bottom: 25px;
+     border-radius: 10px;
+     border: 1px solid #e5e1d6;
+     box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+   }
+
+
+   * {
+     transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+   }
+
+
+   h2 {
+     text-align: center;
+     font-family: 'Playfair Display', serif;
+     color: #2b2b2b;
+     margin-bottom: 10px;
+   }
+
+
+   .primary-btn {
+     display: block;
+     margin: 20px auto 0;
+     padding: 10px 25px;
+     background: #c2a22e;
+     color: #fff;
+     border: none;
+     border-radius: 6px;
+     cursor: pointer;
+   }
+
+
+   .primary-btn:hover {
+     background: #b6a157;
+   }
+
+
+   .primary-btn:focus-visible {
+     outline: 3px solid rgba(155,139,87,0.4);
+     outline-offset: 2px;
+   }
+
+
+   .search-bar {
+     gap: 10px;
+     padding: 10px 25px;
+     display: flex;
+     align-items: center;
+   }
+
+
+   .search-bar input,
+   .search-bar select {
+     flex: 1;
+     padding: 10px 25px;
+     border-radius: 6px;
+     border: 2px solid #b3b2b2;
+   }
+
+
+   .search-bar input:focus,
+   .search-bar select:focus {
+     border-color: #9b8b57;
+     box-shadow: 0 0 0 3px rgba(155,139,87,0.15);
+     outline: none;
+   }
+
+
+   #versionSelect {
+     flex: 0 0 160px;
+     width: 160px;
+   }
+
+
+   .search-input-wrap {
+     position: relative;
+     flex: 1;
+   }
+
+
+   .search-input-wrap input {
+     width: 100%;
+     padding-left: 40px;
+     padding-right: 40px;
+   }
+
+
+   .search-icon {
+     position: absolute;
+     left: 14px;
+     top: 50%;
+     transform: translateY(-50%);
+     color: #9b8b57;
+     pointer-events: none;
+   }
+
+
+   .clear-btn {
+     position: absolute;
+     right: 10px;
+     top: 50%;
+     transform: translateY(-50%);
+     background: transparent;
+     border: none;
+     padding: 4px;
+     color: #9b8b57;
+     cursor: pointer;
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+   }
+
+
+   .clear-btn:hover {
+     color: #b6a157;
+   }
+
+
+   .chapter-title {
+     text-align: center;
+     color: #9b8b57;
+     margin-bottom: 15px;
+     font-size: 26px;
+     letter-spacing: 0.3px;
+   }
+
+
+   .chapter-title-bar {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+   }
+
+
+   .chapter-title-left {
+     text-align: left;
+     color: #9b8b57;
+     font-family: 'Inter', sans-serif;
+     font-size: large;
+     font-weight: 600;
+   }
+
+
+   .chapter-title-center {
+     flex: 1;
+     text-align: center;
+     color: #9b8b57;
+     font-weight: 600;
+     font-family: 'Inter', sans-serif;
+     font-size: large;
+   }
+
+
+   .chapter-heading {
+     text-align: center;
+     font-size: 2px;
+     font-weight: 600;
+     color: #2b2b2b;
+     margin: 8px 0 12px;
+   }
+
+
+   #chapterContent p {
+     margin-bottom: 10px;
+     line-height: 1.8;
+     font-size: 14px;
+     text-align: center;
+   }
+
+
+   .close-btn {
+     background: none;
+     border: none;
+     color: #9b8b57;
+     font-size: 24px;
+     cursor: pointer;
+     padding: 0 10px;
+     line-height: 1;
+   }
+
+
+   .verse-text {
+     text-align: center;
+     font-size: 17px;
+     line-height: 1.8;
+   }
+
+
+   #searchResults .verse-text {
+     font-size: 18px;
+     line-height: 2.0;
+     margin-top: 10px;
+   }
+
+
+   .reference {
+     text-align: center;
+     font-size: 16px;
+     color: #b3a46b;
+     margin-bottom: 15px;
+     font-weight: 600;
+   }
+
+
+   sup.verse-number {
+     font-family: 'Inter', sans-serif;
+     font-weight: 600;
+     color: #9b8b57;
+     font-size: 0.9em;
+     position: relative;
+     top: -0.1em;
+     margin-right: 4px;
+   }
+
+
+   @media (max-width: 640px) {
+     .search-bar { flex-wrap: wrap; padding: 10px 15px; }
+     #versionSelect { flex: 1 1 100%; width: 100%; }
+     .primary-btn { width: 100%; margin-top: 12px; }
+     .container { margin: 20px auto; padding: 12px; }
+     .card { padding: 20px; }
+   }
+
+
+   .dropcap {
+     font-size: large;
+     color: #9b8b57;
+     margin-right: 4px;
+     font-family: 'Inter', sans-serif;
+     font-weight: 600;
+   }
+ </style>
+</head>
+<body>
+
+
+<div class="container">
+
+
+ <div class="card">
+   <h2>VERSE OF THE DAY</h2>
+   <p class="reference" id="vodReference"></p>
+   <p class="verse-text" id="vodText"></p>
+   <button class="primary-btn" id="readChapterBtn">Read Full Chapter</button>
+ </div>
+  
+ <div class="card" id="chapterCard" style="display:none;">
+   <h3 class="chapter-title" id="chapterTitle"></h3>
+   <div id="chapterContent"></div>
+   <button class="primary-btn" onclick="closeFullChapter()"> Close Chapter</button>
+ </div>
+  <div class="card">
+   <div class="search-bar">
+     <div class="search-input-wrap">
+       <span class="search-icon">
+         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+           <line x1="20" y1="20" x2="16.5" y2="16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+         </svg>
+       </span>
+       <input type="text" id="searchInput" placeholder="Enter a passage or keyword (e.g. John 3:16)">
+       <button type="button" class="clear-btn" aria-label="Clear search" onclick="clearSearch()">
+         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+           <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+         </svg>
+       </button>
+     </div>
+     <select id="versionSelect">
+       <option value="NIV" selected>Loading versions…</option>
+     </select>
+     <button class="primary-btn" onclick="searchVerse()" style="margin-bottom: 20px">Search</button>
+   </div>
+  
+   <div id="searchResults" style="margin-top: 30px; display: none;">
+     <p class="chapter-title" id="resultReference"></p>
+     <div class="verse-text" id="resultText"></div>
+   </div>
+ </div>
+
+
+</div>
+
+
+<script>
+ // JAVASCRIPT LOGIC
+ let lastSearchQuery = '';
+
+
+ const VERSION_FULL_NAMES = {
+   NIV: 'New International Version', KJV: 'King James Version', ESV: 'English Standard Version',
+   NASB: 'New American Standard Bible', NLT: 'New Living Translation', CSB: 'Christian Standard Bible',
+   NKJV: 'New King James Version', RSV: 'Revised Standard Version', MSG: 'The Message',
+   AMP: 'Amplified Bible', CEB: 'Common English Bible', WEB: 'World English Bible',
+   YLT: 'Young\'s Literal Translation', ASV: 'American Standard Version', GNV: 'Geneva Bible',
+   DARBY: 'Darby Translation', NET: 'New English Translation', ERV: 'Easy-to-Read Version',
+   HCSB: 'Holman Christian Standard Bible', MEV: 'Modern English Version', NOG: 'Names of God Bible',
+   TLB: 'The Living Bible', GW: 'God\'s Word Translation', EXB: 'Expanded Bible',
+   ICB: 'International Children\'s Bible', NIRV: 'New International Reader\'s Version',
+   NLV: 'New Life Version', EHV: 'Evangelical Heritage Version', LSB: 'Legacy Standard Bible',
+   LEB: 'Lexham English Bible', TLV: 'Tree of Life Version', CJB: 'Complete Jewish Bible',
+   OJB: 'Orthodox Jewish Bible', RGT: 'Revised Geneva Translation', BST: 'The Bible Study',
+   TPT: 'The Passion Translation', PHILLIPS: 'J.B. Phillips New Testament', JUB: 'Jubilee Bible 2000',
+   GNB: 'Good News Bible', GNT: 'Good News Translation', CEV: 'Contemporary English Version',
+   NCV: 'New Century Version', NIVUK: 'New International Version (Anglicized)',
+   NRSVUE: 'New Revised Standard Version Updated Edition', RSVCE: 'Revised Standard Version Catholic Edition',
+   NABRE: 'New American Bible Revised Edition', ESVUK: 'English Standard Version (Anglicised)'
+ };
+
+
+ function normalizeGatewayVersion(value) {
+   if (!value) return 'NIV';
+   return String(value).trim().toUpperCase();
+ }
+
+
+ function getVersionFullName(code) {
+   const c = normalizeGatewayVersion(code);
+   return VERSION_FULL_NAMES[c] || c;
+ }
+
+
+ function friendlyErrorMessage(raw) {
+   const msg = String(raw || '').toLowerCase();
+   if (msg.includes('unsupported or invalid version')) return "That translation isn’t available. Please choose another.";
+   if (msg.includes('failed to fetch passage')) return "We couldn’t find that passage. Please try again.";
+   if (msg.includes('missing reference')) return "Please enter a passage or keyword.";
+   return "Something went wrong. Please try again.";
+ }
+
+
+ function cleanText(html) {
+   if (!html) return "";
+   return html.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ").trim();
+ }
+
+
+ function toTitleCase(str) {
+   if (!str) return '';
+   return String(str).toLowerCase().replace(/\b([a-z])(\w*)/g, (m, p1, p2) => p1.toUpperCase() + p2);
+ }
+
+
+ function formatReferenceTitleCase(ref) {
+   if (!ref) return '';
+   const s = String(ref).trim();
+   const m = s.match(/^[\d\s]*[A-Za-z][A-Za-z\s]*\s*(.*)$/);
+   if (m) {
+     const bookPart = s.replace(/\s*(\d+[:]\d+(?:-\d+)?)?.*$/, '');
+     const book = toTitleCase(bookPart.replace(/\s+/g, ' ').trim());
+     const rest = s.slice(bookPart.length).trim();
+     return rest ? `${book} ${rest}` : book;
+   }
+   return toTitleCase(s);
+ }
+
+
+ function applyDropCap(text) {
+   if (!text) return '';
+   const s = String(text);
+   const idx = s.search(/[A-Za-z]/);
+   if (idx === -1) return s;
+   const first = s[idx].toUpperCase();
+   return s.slice(0, idx) + '<span class="dropcap">' + first + '</span>' + s.slice(idx + 1);
+ }
+
+
+ function stripFootnoteMarkers(html) {
+   if (!html) return '';
+   let s = String(html).replace(/\u00A0|&nbsp;/g, ' ');
+   s = s.replace(/<sup[^>]*>(\s*\d+\s*)<\/sup>/gi, '<sup class="verse-number">$1</sup>');
+   s = s.replace(/<span[^>]*class="chapternum"[^>]*>\s*(\d+)\s*<\/span>/i, '<sup class="verse-number">1</sup> ');
+  
+   const footnotePatterns = [
+     /<sup(?![^>]*class="verse-number")[^>]*>.*?<\/sup>/gi,
+     /<(?:sup|span|a|div)[^>]*(?:class|id|data-[^=]*)="[^"]*(?:footnote|crossref|fn|fen|fnt|cr)[^"]*"[^>]*>[\s\S]*?<\/(?:sup|span|a|div)>/gi,
+     /<a[^>]*>\s*[\[\(]?[a-zA-Z0-9*†]{1,2}[\]\)]?\s*<\/a>/gi
+   ];
+   footnotePatterns.forEach(pattern => s = s.replace(pattern, ''));
+   return s;
+ }
+
+
+ function parseReferenceToChapter(reference) {
+   if (!reference || typeof reference !== 'string') return null;
+   return reference.split('(')[0].trim().split(':')[0].trim() || null;
+ }
+
+
+ async function loadVerseOfDay() {
+   const today = new Date();
+   const key = `vod:${today.toISOString().slice(0,10)}`;
+   const cached = localStorage.getItem(key);
+   if (cached) {
+     const { reference, html } = JSON.parse(cached);
+     document.getElementById("vodReference").innerText = reference;
+     document.getElementById("vodText").innerHTML = html;
+     return;
+   }
+   try {
+     const selectedVersion = normalizeGatewayVersion(document.getElementById('versionSelect')?.value || 'NIV');
+     const res = await fetch(`/api/votd?version=${encodeURIComponent(selectedVersion)}`);
+     if (!res.ok) throw new Error(`VOD HTTP ${res.status}`);
+     const data = await res.json();
+     const reference = `${data.verse} (${getVersionFullName(data.version || selectedVersion)})`;
+     const html = stripFootnoteMarkers(Array.isArray(data.content) ? data.content.join(' ') : '');
+     document.getElementById("vodReference").innerText = reference;
+     document.getElementById("vodText").innerHTML = html;
+     localStorage.setItem(key, JSON.stringify({ reference, html }));
+   } catch (e) {
+     document.getElementById("vodText").innerText = "Can’t load today’s verse right now.";
+   }
+ }
+
+
+ async function readFullChapter() {
+   try {
+     const currentRef = document.getElementById("vodReference")?.innerText || 'John 3';
+     let chapterRef = parseReferenceToChapter(currentRef) || 'John 3';
+     const selectedVersion = normalizeGatewayVersion(document.getElementById('versionSelect').value || 'NIV');
+    
+     const res = await fetch(`/api/chapter?reference=${encodeURIComponent(chapterRef)}&version=${encodeURIComponent(selectedVersion)}`);
+     const passage = await res.json();
+
+
+     const titleEl = document.getElementById("chapterTitle");
+     const contentEl = document.getElementById("chapterContent");
+    
+     titleEl.innerHTML = `
+       <div class="chapter-title-bar">
+         <span class="chapter-title-left">${formatReferenceTitleCase(passage?.reference || chapterRef)}</span>
+         <span class="chapter-title-center">[${getVersionFullName(selectedVersion)}]</span>
+         <button class="close-btn" onclick="closeFullChapter()">×</button>
+       </div>`;
+    
+     contentEl.innerHTML = Array.isArray(passage?.verses)
+       ? passage.verses.map(v => `<p class="verse-text"><sup class="verse-number">${v.verse}</sup>${cleanText(v.text)}</p>`).join('')
+       : (passage.content ? passage.content.map(stripFootnoteMarkers).join(' ') : "<p>No content.</p>");
+
+
+     document.getElementById("chapterCard").style.display = "block";
+     document.getElementById("chapterCard").scrollIntoView({ behavior: 'smooth' });
+   } catch (e) {
+     console.error(e);
+   }
+ }
+
+
+ function closeFullChapter() {
+   document.getElementById("chapterCard").style.display = "none";
+ }
+
+
+ async function searchVerse() {
+   const input = document.getElementById("searchInput").value.trim();
+   if (!input) { alert("Please enter a passage."); return; }
+   lastSearchQuery = input;
+   await performSearch(input, document.getElementById("versionSelect").value);
+ }
+
+
+ async function performSearch(query, versionName) {
+   const textEl = document.getElementById("resultText");
+   const refEl = document.getElementById("resultReference");
+   const resultsDiv = document.getElementById("searchResults");
+  
+   try {
+     textEl.innerHTML = 'Searching...';
+     resultsDiv.style.display = "block";
+    
+     const res = await fetch(`/api/passage?query=${encodeURIComponent(query)}&version=${encodeURIComponent(versionName)}`);
+     const passage = await res.json();
+    
+     refEl.innerHTML = `<div class="chapter-title-bar"><span class="chapter-title-left">${formatReferenceTitleCase(passage.verse || query)}</span><span class="chapter-title-center">[${getVersionFullName(versionName)}]</span></div>`;
+    
+     textEl.innerHTML = Array.isArray(passage.verses)
+       ? passage.verses.map(v => `<p class="verse-text"><sup class="verse-number">${v.verse}</sup>${cleanText(v.text)}</p>`).join('')
+       : applyDropCap(cleanText(stripFootnoteMarkers(passage.content)));
+      
+   } catch (e) {
+     textEl.innerHTML = `<em style="color: #d32f2f;">${friendlyErrorMessage(e.message)}</em>`;
+   }
+ }
+
+
+ async function populateGatewayVersions() {
+   const select = document.getElementById('versionSelect');
+   try {
+     const res = await fetch('/api/versions');
+     const data = await res.json();
+     const versions = data.gatewayVersions || ['NIV'];
+     select.innerHTML = '';
+     versions.forEach(v => {
+       const opt = document.createElement('option');
+       opt.value = v; opt.textContent = v;
+       select.appendChild(opt);
+     });
+     select.value = 'NIV';
+   } catch (e) {
+     select.innerHTML = '<option value="NIV">NIV</option>';
+   }
+ }
+
+
+ function clearSearch() {
+   document.getElementById("searchInput").value = "";
+   document.getElementById("searchResults").style.display = "none";
+   lastSearchQuery = '';
+ }
+
+
+ // Event Listeners
+ document.getElementById("readChapterBtn").addEventListener("click", readFullChapter);
+ document.getElementById("searchInput").addEventListener("keypress", (e) => { if (e.key === "Enter") searchVerse(); });
+ document.getElementById("versionSelect").addEventListener("change", function() {
+   if (lastSearchQuery) performSearch(lastSearchQuery, this.value);
+ });
+
+
+ // Init
+ populateGatewayVersions().then(loadVerseOfDay);
+</script>
+</body>
+</html>
